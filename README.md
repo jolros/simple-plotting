@@ -26,6 +26,8 @@ The result of `plot` is an 800×600 PNG image that's sent to standard output. No
 
 and viewed in whatever graphics program the user prefers. No controls for tick marks or grid spacing are provided—this is quick and dirty plotting.
 
+Additionally, running `plot` on Mac OS X with `-p` will display the graph using the Quick Look utility. Nothing will print to standard output in this case.
+
 <img src="http://farm8.staticflickr.com/7449/11444287224_fdf3652083.jpg" alt="Two-function plot" title="Two-function plot" />
 
 ## Points ##
@@ -44,7 +46,7 @@ Normally, `pplot` plots the points only. If you want to connect the points with 
 
     pbpaste | pplot -l > plot.png
 
-
+As with `plot`, running `pplot` on Mac OS X with `-p` will display the graph using the Quick Look utility. Nothing will print to standard output in this case.
 
 [1]: http://www.numpy.org/
 [2]: http://matplotlib.org/
