@@ -1,15 +1,26 @@
 #!/usr/bin/python
 
 import matplotlib.pyplot as plt
+import subprocess
 import sys
 import re
 import getopt
+import tempfile
 
+# Use quicklook instead of printing to STDOUT
+preview = False
 marker = '.'
-opts, args = getopt.getopt(sys.argv[1:], 'l')
-for o, a in opts:
-  if o == '-l':
-    marker = '.-'
+
+try:                                
+    opts, args = getopt.getopt(sys.argv[1:], "pl")
+except getopt.GetoptError:
+    print "Unsupported option"
+    sys.exit(2)
+for opt, arg in opts:
+    if opt in ("-p"):
+        preview = True
+    if opt in ("-l"):
+        marker = '.-'
 
 x = []
 y = []   
@@ -21,4 +32,11 @@ for line in sys.stdin:
 plt.plot(x, y, marker)
 plt.minorticks_on()
 plt.grid(which='both', color='#aaaaaa')
-plt.savefig(sys.stdout, format='png')
+
+if (preview):
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.png') as f:
+        plt.savefig(f.name, format='png')
+        subprocess.check_call(['qlmanage', '-p', f.name], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+else:
+    plt.savefig(sys.stdout, format='png')
+
